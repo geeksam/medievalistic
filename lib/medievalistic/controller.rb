@@ -11,6 +11,7 @@ module Medievalistic
 
     def initialize(request, response)
       @request, @response = request, response
+      @rendered_eh = false
     end
 
     def render(*args)
