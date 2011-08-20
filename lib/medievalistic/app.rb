@@ -1,7 +1,12 @@
-class Medievalistic::App
-  def call(env)
-    request = Rack::Request.new(env)
-    response = Rack::Response.new
-    response.finish
+require 'forwardable'
+
+module Medievalistic
+  class App
+    extend Forwardable
+
+    def_delegator :router, :call
+    def router
+      @router ||= Router.new
+    end
   end
 end
