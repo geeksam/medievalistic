@@ -3,6 +3,11 @@ require 'rack/test'
 
 class TestApp < Medievalistic::App
 end
+class HelloController < Medievalistic::Controller
+  def world
+    render :text => "Hello, world!"
+  end
+end
 
 describe "a test application" do
   include Rack::Test::Methods
@@ -12,7 +17,7 @@ describe "a test application" do
   end
   
   it 'works' do
-    flunk
+    get '/hello/world'
+    assert_equal "Hello, world!", last_response.body
   end
-  
 end
