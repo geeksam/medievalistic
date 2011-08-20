@@ -5,7 +5,7 @@ class TestApp < Medievalistic::App
 end
 class HelloController < Medievalistic::Controller
   def world
-    render :text => "Hello, world!"
+    render :html => Hello.html
   end
 end
 
@@ -16,8 +16,9 @@ describe "a test application" do
     TestApp.new
   end
   
-  it 'works' do
+  it 'routes and renders' do
     get '/hello/world'
-    assert_equal "Hello, world!", last_response.body
+    assert last_response.ok?
+    assert last_response.body.include?(Hello.txt)
   end
 end

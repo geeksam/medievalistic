@@ -4,11 +4,13 @@ require 'rake/testtask'
 task :default => 'test:all'
 
 namespace :test do
-  desc "Run all tests"
-  task :all => %w[unit integration]
+	Rake::TestTask.new('all') do |t|
+	  t.pattern = 'test/**/*_test.rb'
+    t.warning = true
+	end
 
 	Rake::TestTask.new('integration') do |t|
-	  t.pattern = 'test/integration/*.rb'
+	  t.pattern = 'test/integration/*_test.rb'
     t.warning = true
 	end
 
