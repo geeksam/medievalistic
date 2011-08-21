@@ -15,6 +15,8 @@ module Medievalistic
     end
 
     def initialize(request, response)
+      # Actually hang on to the request and response at this point, because
+      # typing "def show(request, response)" all the time would suck.
       @request, @response = request, response
       @rendered = false
     end
@@ -32,9 +34,9 @@ module Medievalistic
       raise DoubleRenderError if @rendered
 
       @rendered = true
-      content, content_type = options.delete(type), ContentTypes[type]
 
-      response["Content-Type"] = content_type
+      response["Content-Type"] = ContentTypes[type]
+      content = options.delete(type)
       response.write content
     end
   end
