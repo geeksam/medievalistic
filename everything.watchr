@@ -2,6 +2,13 @@ def run_all_tests
   sep = '*' * 10
   puts "\n\n#{sep}  %s  #{sep}\n\n" % Time.now.strftime('%I:%M:%S %p')
   puts `rake test:all`
+  sticky = false
+  if $? == 0
+    subject, message = "GREEN", "All tests passing!"
+  else
+    subject, message = "RED", "Test(s) failing; see Terminal for details."
+  end
+  `growlnotify -t "#{subject}" -m "#{message}"`
 end
 
 watch('.*\.rb') { run_all_tests }
