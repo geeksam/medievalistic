@@ -9,6 +9,11 @@ module Medievalistic
 
     attr_reader :request, :response
 
+    def self.dispatch(request, response, action)
+      instance = new(request, response)
+      instance.send(action)
+    end
+
     def initialize(request, response)
       @request, @response = request, response
       @rendered = false

@@ -4,7 +4,13 @@ module Medievalistic
   class App
     extend Forwardable
 
-    def_delegator :router, :call
+    def call(env)
+      request  = Rack::Request.new(env)
+      response = Rack::Response.new
+      router.dispatch(request, response)
+      response.finish
+    end
+
     def router
       @router ||= Router.new
     end
