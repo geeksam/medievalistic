@@ -11,7 +11,7 @@ module Medievalistic
 
     def initialize(request, response)
       @request, @response = request, response
-      @rendered_eh = false
+      @rendered = false
     end
 
     def render(*args)
@@ -21,16 +21,12 @@ module Medievalistic
       end
     end
 
-    def rendered?
-      !! @rendered_eh
-    end
-
     protected
     def try_rendering(options, type)
       return unless options.has_key?(type)
-      raise DoubleRenderError if rendered?
+      raise DoubleRenderError if @rendered
 
-      @rendered_eh = true
+      @rendered = true
       content, content_type = options.delete(type), ContentTypes[type]
 
       response["Content-Type"] = content_type
