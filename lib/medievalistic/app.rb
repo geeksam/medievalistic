@@ -12,7 +12,7 @@ module Medievalistic
     end
 
     def router
-      @router ||= Router.new
+      @router ||= Router.new(self)
     end
   end
 end

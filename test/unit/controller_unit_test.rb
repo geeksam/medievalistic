@@ -7,7 +7,7 @@ describe Medievalistic::Controller do
   describe '#render' do
     before do
       @response = MiniTest::Mock.new
-      @controller = HelloController.new(nil, @response)
+      @controller = HelloController.new(test_app, nil, @response)
       def @response.expect_content_and_type(content, type)
         expect :write, content, [content]
         expect :[]=, type, ['Content-Type', type]

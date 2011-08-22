@@ -9,16 +9,14 @@ module Medievalistic
 
     attr_reader :request, :response
 
-    def self.dispatch(request, response, action)
-      instance = new(request, response)
+    def self.dispatch(app, request, response, action)
+      instance = new(app, request, response)
       instance.send(action)
     end
 
-    def initialize(request, response)
-      # Actually hang on to the request and response at this point, because
-      # typing "def show(request, response)" all the time would suck.
-      @request, @response = request, response
-      @rendered = false
+    def initialize(app, request, response)
+      @app, @request, @response = app, request, response
+      @already_rendered = false
     end
 
     def render(*args)
@@ -39,8 +37,8 @@ module Medievalistic
     end
 
     def write_type_and_content(content_type, content)
-      raise DoubleRenderError if @rendered
-      @rendered = true
+      raise DoubleRenderError if @already_rendered
+      @already_rendered = true
       response["Content-Type"] = content_type
       response.write content
     end

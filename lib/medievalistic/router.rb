@@ -3,9 +3,14 @@ module Medievalistic
   end
 
   class Router
+    attr_reader :app
+    def initialize(app)
+      @app = app
+    end
+
     def dispatch(request, response)
       controller_class, action = controller_class_and_action(request.path_info)
-      controller_class.dispatch(request, response, action)
+      controller_class.dispatch(app, request, response, action)
     end
 
     def controller_class_and_action(path)

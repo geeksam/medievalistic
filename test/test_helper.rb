@@ -13,3 +13,9 @@ def Hello.html
   '<p>%s</p>' % self
 end
 Hello.freeze
+
+def test_app
+  @test_app ||= TestApp.new
+end
+class TestApp < Medievalistic::App; end
+class HelloController < Medievalistic::Controller; end

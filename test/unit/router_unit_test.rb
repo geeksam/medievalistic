@@ -5,7 +5,7 @@ end
 
 describe Medievalistic::Router do
   def router
-    @router ||= Medievalistic::Router.new
+    @router ||= Medievalistic::Router.new(test_app)
   end
 
   describe '#controller_class_and_action' do
