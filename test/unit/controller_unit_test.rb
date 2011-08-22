@@ -1,4 +1,5 @@
-require File.join(File.dirname(__FILE__), *%w[.. test_helper])
+require File.expand_path(File.join(File.dirname(__FILE__), *%w[.. test_helper]))
+
 
 class HelloController < Medievalistic::Controller
 end
@@ -82,11 +83,5 @@ describe Medievalistic::Controller do
         end
       end
     end
-
-    # describe 'with no arguments' do
-    #   it 'renders a template' do
-    #     flunk "Continue here"
-    #   end
-    # end
   end
 end
