@@ -7,15 +7,14 @@ module Medievalistic
     class DoubleRenderError < Exception
     end
 
-    attr_reader :request, :response
-
-    def self.dispatch(app, request, response, action)
-      instance = new(app, request, response)
-      instance.send(action)
+    def self.dispatch(request, action)
+      new(request).send(action)
     end
 
-    def initialize(app, request, response)
-      @app, @request, @response = app, request, response
+    attr_reader :request
+
+    def initialize(request)
+      @request = request
       @already_rendered = false
     end
 
@@ -30,17 +29,10 @@ module Medievalistic
     protected
     def try_rendering_format_value(options)
       (ContentTypes.keys & options.keys).each do |type|
-        next unless options.has_key?(type)
-        content = options.delete(type)
-        write_type_and_content(ContentTypes[type], content)
+        raise DoubleRenderError if @already_rendered
+        @already_rendered = true
+        @request.write_type_and_content(ContentTypes[type], options.delete(type))
       end
-    end
-
-    def write_type_and_content(content_type, content)
-      raise DoubleRenderError if @already_rendered
-      @already_rendered = true
-      response["Content-Type"] = content_type
-      response.write content
     end
   end
 end

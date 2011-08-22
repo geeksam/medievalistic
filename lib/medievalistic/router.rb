@@ -10,7 +10,7 @@ module Medievalistic
 
     def dispatch(request)
       controller_class, action = controller_class_and_action(request.path)
-      controller_class.dispatch(request.app, request.rack_request, request.rack_response, action)
+      controller_class.dispatch(request, action)
     end
 
     def controller_class_and_action(path)
