@@ -6,7 +6,7 @@ module Medievalistic
 
     def call(env)
       request = Request.new(self, env)
-      router.dispatch(request.rack_request, request.rack_response)
+      router.dispatch(request)
       request.rack_response.finish
     end
 

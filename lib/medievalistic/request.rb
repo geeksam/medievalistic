@@ -9,5 +9,8 @@ module Medievalistic
       @rack_request  = Rack::Request.new(env)
       @rack_response = Rack::Response.new
     end
+
+    extend Forwardable
+    def_delegator :rack_request, :path_info, :path
   end
 end

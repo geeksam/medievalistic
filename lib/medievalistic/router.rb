@@ -8,9 +8,9 @@ module Medievalistic
       @app = app
     end
 
-    def dispatch(request, response)
-      controller_class, action = controller_class_and_action(request.path_info)
-      controller_class.dispatch(app, request, response, action)
+    def dispatch(request)
+      controller_class, action = controller_class_and_action(request.path)
+      controller_class.dispatch(request.app, request.rack_request, request.rack_response, action)
     end
 
     def controller_class_and_action(path)
