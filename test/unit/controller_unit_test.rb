@@ -6,9 +6,9 @@ end
 describe Medievalistic::Controller do
   describe '#render' do
     before do
-      @mock_request = MiniTest::Mock.new
-      @controller = HelloController.new(@mock_request)
-      def @mock_request.expect_write_content_and_type(content, type)
+      @doublemeat_medley = MiniTest::Mock.new
+      @controller = HelloController.new(@doublemeat_medley)
+      def @doublemeat_medley.expect_write_content_and_type(content, type)
         expect :write_type_and_content, content, [type, content]
         yield
         verify
@@ -23,7 +23,7 @@ describe Medievalistic::Controller do
       end
 
       assert_raises(Medievalistic::Controller::DoubleRenderError) do
-        @controller.request.expect_write_content_and_type 'Unce', 'text/html' do
+        @doublemeat_medley.expect_write_content_and_type 'Unce', 'text/html' do
           @controller.goodbye
         end
       end
@@ -35,7 +35,7 @@ describe Medievalistic::Controller do
           render :text => nil
         end
 
-        @controller.request.expect_write_content_and_type nil, 'text/plain' do
+        @doublemeat_medley.expect_write_content_and_type nil, 'text/plain' do
           @controller.goodbye
         end
       end
@@ -45,7 +45,7 @@ describe Medievalistic::Controller do
           render :text => ''
         end
 
-        @controller.request.expect_write_content_and_type '', 'text/plain' do
+        @doublemeat_medley.expect_write_content_and_type '', 'text/plain' do
           @controller.goodbye
         end
       end
@@ -55,7 +55,7 @@ describe Medievalistic::Controller do
           render :text => Hello.txt
         end
 
-        @controller.request.expect_write_content_and_type Hello.txt, 'text/plain' do
+        @doublemeat_medley.expect_write_content_and_type Hello.txt, 'text/plain' do
           @controller.goodbye
         end
       end
@@ -65,7 +65,7 @@ describe Medievalistic::Controller do
           render :html => Hello.html
         end
 
-        @controller.request.expect_write_content_and_type Hello.html, 'text/html' do
+        @doublemeat_medley.expect_write_content_and_type Hello.html, 'text/html' do
           @controller.goodbye
         end
       end
@@ -76,7 +76,7 @@ describe Medievalistic::Controller do
         end
 
         assert_raises(Medievalistic::Controller::DoubleRenderError) do
-          @controller.request.expect_write_content_and_type 'I am HTML', 'text/html' do
+          @doublemeat_medley.expect_write_content_and_type 'I am HTML', 'text/html' do
             @controller.goodbye
           end
         end

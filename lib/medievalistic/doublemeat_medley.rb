@@ -1,7 +1,7 @@
 require 'forwardable'
 
 module Medievalistic
-  class Request
+  class DoublemeatMedley
     attr_reader :app, :rack_request, :rack_response
     
     def initialize(app, env)
@@ -12,6 +12,7 @@ module Medievalistic
 
     extend Forwardable
     def_delegator :rack_request, :path_info, :path
+    def_delegator :rack_response, :finish, :finalize
 
     def write_type_and_content(content_type, content)
       rack_response["Content-Type"] = content_type

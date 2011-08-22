@@ -5,9 +5,9 @@ module Medievalistic
     extend Forwardable
 
     def call(env)
-      request = Request.new(self, env)
-      router.dispatch(request)
-      request.rack_response.finish
+      doublemeat_medley = DoublemeatMedley.new(self, env)
+      router.dispatch(doublemeat_medley)
+      doublemeat_medley.finalize
     end
 
     def router

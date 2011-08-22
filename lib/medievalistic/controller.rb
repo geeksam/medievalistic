@@ -7,14 +7,14 @@ module Medievalistic
     class DoubleRenderError < Exception
     end
 
-    def self.dispatch(request, action)
-      new(request).send(action)
+    def self.dispatch(doublemeat_medley, action)
+      new(doublemeat_medley).send(action)
     end
 
-    attr_reader :request
+    attr_reader :doublemeat_medley
 
-    def initialize(request)
-      @request = request
+    def initialize(doublemeat_medley)
+      @doublemeat_medley = doublemeat_medley
       @already_rendered = false
     end
 
@@ -31,7 +31,7 @@ module Medievalistic
       (ContentTypes.keys & options.keys).each do |type|
         raise DoubleRenderError if @already_rendered
         @already_rendered = true
-        @request.write_type_and_content(ContentTypes[type], options.delete(type))
+        @doublemeat_medley.write_type_and_content(ContentTypes[type], options.delete(type))
       end
     end
   end
