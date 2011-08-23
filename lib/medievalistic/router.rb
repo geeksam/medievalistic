@@ -15,9 +15,22 @@ module Medievalistic
 
     def controller_class_and_action(path)
       controller_name, action = path_components(path)
-      controller_name = controller_name.gsub(/^(.)/) { |m| m[0].chr.upcase } + 'Controller'
-      controller_class = Object.const_get(controller_name)
+      controller_class = get_controller_class(controller_name)
       [controller_class, action.to_sym]
+    end
+
+    def get_controller_class(controller_name)
+      controller_class_name = controller_name.gsub(/^(.)/) { |m| m[0].chr.upcase } + 'Controller'
+      begin
+        Object.const_get(controller_class_name)
+      rescue NameError => name_error
+        begin
+          require File.join(app.root, 'controllers', controller_name + '_controller')
+        rescue LoadError => load_error
+          raise name_error
+        end
+        Object.const_get(controller_class_name)
+      end
     end
 
     def path_components(path)

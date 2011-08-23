@@ -5,17 +5,18 @@ require 'minitest/autorun'
 require File.expand_path(File.join(File.dirname(__FILE__), *%w[.. lib medievalistic]))
 
 
-Hello = 'Hello, world!'
-def Hello.txt
+Foo = 'Foo!'
+def Foo.txt
   self.dup
 end
-def Hello.html
+def Foo.html
   '<p>%s</p>' % self
 end
-Hello.freeze
+Foo.freeze
 
 def test_app
-  @test_app ||= TestApp.new
+  @test_app ||= begin
+    app_klass = Class.new(Medievalistic::App)
+    app_klass.new
+  end
 end
-class TestApp < Medievalistic::App; end
-class HelloController < Medievalistic::Controller; end
