@@ -22,8 +22,8 @@ describe "a test application" do
     it 'renders using the default layout' do
       get '/hello/kitty_has_no_mouth'
       assert last_response.ok?
-      assert_match /<html>/, last_response.body
-      assert_match /I'm a testing app!/, last_response.body
+      assert_match(/<html>/, last_response.body)
+      assert_match(/I'm a testing app!/, last_response.body)
     end
   end
 
@@ -38,8 +38,8 @@ describe "a test application" do
       skip
       get '/hello/kitty_has_no_mouth'
       assert last_response.ok?
-      assert_match /<html>/, last_response.body
-      assert_match /I'm a testing app!/, last_response.body
+      assert_match(/<html>/, last_response.body)
+      assert_match(/I'm a testing app!/, last_response.body)
     end
   end
 end
