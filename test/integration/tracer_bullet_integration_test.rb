@@ -7,7 +7,7 @@ require File.join(File.dirname(__FILE__), *%w[app_for_testing test_app])
 
 describe "a test application" do
   include Rack::Test::Methods
-  
+
   def app
     AppForTesting.new
   end
@@ -19,10 +19,14 @@ describe "a test application" do
   end
 
   it 'renders a static view template' do
-    skip "refactor to #render_as :html, 'body' instead of #render :html => 'body'"
     get '/hello/kitty_has_no_mouth'
     assert last_response.ok?
-    puts last_response.body.inspect
     assert last_response.body.include?('Hello Kitty has no mouth, but she must scream. That is why her head is so big.')
+  end
+
+  it 'renders in a layout' do
+    get '/hello/kitty_has_no_mouth'
+    assert last_response.ok?
+    assert_match /<html>/, last_response.body
   end
 end

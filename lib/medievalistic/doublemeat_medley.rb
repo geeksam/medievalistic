@@ -16,5 +16,9 @@ module Medievalistic
       @rack_response["Content-Type"] = content_type
       @rack_response.write content
     end
+
+    def root_path
+      @app.root
+    end
   end
 end
