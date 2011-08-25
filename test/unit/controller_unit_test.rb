@@ -18,9 +18,9 @@ describe Medievalistic::Controller do
 
     it 'raises a DoubleRenderError when you call render more than once' do
       def @controller.goodbye
-        render :html => 'Unce'
-        render :html => 'Tice'
-        render :html => 'Fee Times a Mady'
+        render 'Unce'
+        render 'Tice'
+        render 'Fee Times a Mady'
       end
 
       assert_raises(Medievalistic::Controller::DoubleRenderError) do
@@ -30,10 +30,22 @@ describe Medievalistic::Controller do
       end
     end
 
-    describe 'with only hash-style arguments' do
-      it 'renders :text => nil and sets content type to text/plain' do
+    describe '#render' do
+      it 'takes args ("foo") and writes to the tubes with appropriate content type' do
         def @controller.goodbye
-          render :text => nil
+          render Foo.html
+        end
+
+        @doublemeat_medley.expect_write_content_and_type Foo.html, 'text/html' do
+          @controller.goodbye
+        end
+      end
+    end
+
+    describe '#render_as' do
+      it 'takes args (:text, nil) and writes to the tubes with appropriate content type' do
+        def @controller.goodbye
+          render_as :text, nil
         end
 
         @doublemeat_medley.expect_write_content_and_type nil, 'text/plain' do
@@ -41,9 +53,9 @@ describe Medievalistic::Controller do
         end
       end
 
-      it 'renders :text => "" and sets content type to text/plain' do
+      it 'takes args (:text, "") and writes to the tubes with appropriate content type' do
         def @controller.goodbye
-          render :text => ''
+          render_as :text, ""
         end
 
         @doublemeat_medley.expect_write_content_and_type '', 'text/plain' do
@@ -51,9 +63,9 @@ describe Medievalistic::Controller do
         end
       end
 
-      it 'renders :text => "foo" and sets content type to text/plain' do
+      it 'takes args (:text, "foo") and writes to the tubes with appropriate content type' do
         def @controller.goodbye
-          render :text => Foo.txt
+          render_as :text, Foo.txt
         end
 
         @doublemeat_medley.expect_write_content_and_type Foo.txt, 'text/plain' do
@@ -61,25 +73,13 @@ describe Medievalistic::Controller do
         end
       end
 
-      it 'renders :html => "foo" and sets content type to text/html' do
+      it 'takes args (:html, "foo") and writes to the tubes with appropriate content type' do
         def @controller.goodbye
-          render :html => Foo.html
+          render_as :html, Foo.html
         end
 
         @doublemeat_medley.expect_write_content_and_type Foo.html, 'text/html' do
           @controller.goodbye
-        end
-      end
-
-      it 'raises a DoubleRenderError when you call render with more than one format key' do
-        def @controller.goodbye
-          render :text => 'I am text', :html => 'I am HTML'
-        end
-
-        assert_raises(Medievalistic::Controller::DoubleRenderError) do
-          @doublemeat_medley.expect_write_content_and_type 'I am HTML', 'text/html' do
-            @controller.goodbye
-          end
         end
       end
     end

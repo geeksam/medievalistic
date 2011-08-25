@@ -18,21 +18,16 @@ module Medievalistic
       @already_rendered = false
     end
 
-    def render(*args)
-      options = args.extract_options!
-      case
-      when (ContentTypes.keys & options.keys).present?
-        try_rendering_format_value(options)
-      end
+    def render(content)
+raise 'wtf?' if content.is_a?(Hash)
+      render_as(:html, content)
     end
 
-    protected
-    def try_rendering_format_value(options)
-      (ContentTypes.keys & options.keys).each do |type|
-        raise DoubleRenderError if @already_rendered
-        @already_rendered = true
-        @doublemeat_medley.write_type_and_content(ContentTypes[type], options.delete(type))
-      end
+    def render_as(format, content)
+      raise DoubleRenderError if @already_rendered
+      @already_rendered = true
+      @doublemeat_medley.write_type_and_content(ContentTypes[format], content)
     end
+
   end
 end
