@@ -22,30 +22,37 @@ module Medievalistic
       send @action = action
     end
 
-    def render(content = nil)
+    def render(*args)
+      options = args.extract_options!
+      content = args.shift
+
       case content
       when nil
-        render_template :html
+        render_template options
       when String
-        render_as(:html, content)
+        actually_render content, options
       end
     end
 
-    def render_as(format, content)
+    def render_template(options = {})
+      format = options[:format] || :html
+
+      content = File.open(template_filename_for(action, format), 'r').read
+
+      actually_render content, options
+    end
+
+    def actually_render(body, options)
+      format = options[:format] || :html
+
       raise DoubleRenderError if @already_rendered
       @already_rendered = true
-      @doublemeat_medley.write_type_and_content(ContentTypes[format], content)
+
+      @doublemeat_medley.write_type_and_content(ContentTypes[format], body)
     end
 
-    def render_template(format)
-      base_name = '%s.%s' % [action, format]
-      template_filename = template_path(base_name)
-      content = File.open(template_filename, 'r').read
-      render_as format, content
-    end
-
-    def template_path(*additional_paths)
-      File.expand_path(File.join(doublemeat_medley.root_path, 'views', controller_name, *additional_paths))
+    def layout_path(*additional_paths)
+      File.expand_path(File.join(doublemeat_medley.root_path, 'views', 'layouts', *additional_paths))
     end
 
     def controller_name
@@ -54,6 +61,13 @@ module Medievalistic
         gsub(/Controller$/, '').
         gsub(/(.)([A-Z])/) { |match| match[1] + '_' + match[2] }.
         downcase
+    end
+
+    def template_filename_for(action, format)
+      base_name = '%s.%s' % [action, format]
+      base_name = File.expand_path(File.join(doublemeat_medley.root_path, 'views', controller_name, base_name))
+      # TODO: glob for, e.g., foo.html.erb
+      base_name
     end
   end
 end

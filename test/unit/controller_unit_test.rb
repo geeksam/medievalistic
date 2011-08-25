@@ -31,7 +31,7 @@ describe Medievalistic::Controller do
     end
 
     describe '#render' do
-      it 'takes args ("foo") and writes to the tubes with appropriate content type' do
+      it 'takes args (content) and writes to the tubes with default content type of HTML' do
         def @controller.goodbye
           render Foo.html
         end
@@ -40,46 +40,20 @@ describe Medievalistic::Controller do
           @controller.goodbye
         end
       end
-    end
 
-    describe '#render_as' do
-      it 'takes args (:text, nil) and writes to the tubes with appropriate content type' do
-        def @controller.goodbye
-          render_as :text, nil
-        end
-
-        @doublemeat_medley.expect_write_content_and_type nil, 'text/plain' do
-          @controller.goodbye
-        end
-      end
-
-      it 'takes args (:text, "") and writes to the tubes with appropriate content type' do
-        def @controller.goodbye
-          render_as :text, ""
-        end
-
-        @doublemeat_medley.expect_write_content_and_type '', 'text/plain' do
-          @controller.goodbye
-        end
-      end
-
-      it 'takes args (:text, "foo") and writes to the tubes with appropriate content type' do
-        def @controller.goodbye
-          render_as :text, Foo.txt
-        end
+      it 'Does the Right Thing(tm) when given args (content, :format => :text)' do
+        def @controller.foo_text; render Foo.txt,  :format => :text; end
 
         @doublemeat_medley.expect_write_content_and_type Foo.txt, 'text/plain' do
-          @controller.goodbye
+          @controller.foo_text
         end
       end
 
-      it 'takes args (:html, "foo") and writes to the tubes with appropriate content type' do
-        def @controller.goodbye
-          render_as :html, Foo.html
-        end
+      it 'Does the Right Thing(tm) when given args (content, :format => :html)' do
+        def @controller.foo_html; render Foo.html, :format => :html; end
 
         @doublemeat_medley.expect_write_content_and_type Foo.html, 'text/html' do
-          @controller.goodbye
+          @controller.foo_html
         end
       end
     end
