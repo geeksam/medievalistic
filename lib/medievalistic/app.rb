@@ -27,7 +27,7 @@ module Medievalistic
     end
 
     def root
-      self.class::Root
+      @root ||= File.expand_path(self.class::Root)
     end
   end
 end

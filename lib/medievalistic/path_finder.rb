@@ -19,7 +19,7 @@ module Medievalistic
     end
 
     def from_root(*components)
-      File.expand_path(File.join(@doublemeat_medley.root_path, *components))
+      base_path = File.join(@doublemeat_medley.root_path, *components.map(&:to_s))
     end
   end
 end
