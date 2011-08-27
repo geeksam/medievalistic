@@ -26,6 +26,7 @@ module Medievalistic
       rescue NameError => name_error
         begin
           require File.join(app.root, 'controllers', controller_name + '_controller')
+          # TODO (SLG): Refactor this to use FileFinder
         rescue LoadError => load_error
           raise name_error
         end

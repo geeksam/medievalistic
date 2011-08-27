@@ -5,6 +5,7 @@ module Medievalistic
     extend Forwardable
 
     # TODO: nail this behavior down with a test
+    # (In fact, this whole class is only exercised by the integration test.  Which may be okay.)
     def self.inherited(subclass)
       set_root_path_on_descendant subclass
     end
