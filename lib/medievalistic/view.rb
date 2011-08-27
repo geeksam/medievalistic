@@ -3,8 +3,7 @@ require 'tilt'
 module Medievalistic
   class View
     def initialize(doublemeat_medley)
-      @doublemeat_medley = doublemeat_medley
-      @file_finder = FileFinder.new(@doublemeat_medley.root_path)
+      @file_finder = FileFinder.new(doublemeat_medley.root_path)
     end
 
     def content_from_template(controller_name, action, options = {})
@@ -20,6 +19,10 @@ module Medievalistic
       render_template(layout_template, content, options)
     end
 
+    protected
+
+    # Attempt to render the template using Tilt.
+    # If Tilt whinges, just read the file contents and pass them back.
     def render_template(filename, content, options = {})
       begin
         layout = Tilt.new(filename)
