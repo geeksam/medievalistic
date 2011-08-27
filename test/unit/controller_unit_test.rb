@@ -8,11 +8,16 @@ describe Medievalistic::Controller do
   describe '#render' do
     before do
       @doublemeat_medley = MiniTest::Mock.new
-      @controller = FooController.new(@doublemeat_medley)
       def @doublemeat_medley.expect_write_content_and_type(content, type)
         expect :write_type_and_content, content, [type, content]
         yield
         verify
+      end
+
+      @controller = FooController.new(@doublemeat_medley)
+      @view = @controller.view
+      def @view.wrap_content_in_layout(content, layout)
+        content  # just skip that whole Tilt business
       end
     end
 
