@@ -1,5 +1,7 @@
 module Medievalistic
   class FileFinder
+    attr_reader :root_path
+
     def initialize(root_path)
       @root_path = root_path
     end

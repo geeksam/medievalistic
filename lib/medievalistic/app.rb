@@ -24,11 +24,15 @@ module Medievalistic
     end
 
     def router
-      @router ||= Router.new(self)
+      @router ||= Router.new(file_finder)
     end
 
-    def root
+    def root_path
       @root ||= File.expand_path(self.class::Root)
+    end
+
+    def file_finder
+      @file_finder ||= FileFinder.new(root_path)
     end
   end
 end

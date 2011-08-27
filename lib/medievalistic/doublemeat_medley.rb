@@ -2,8 +2,9 @@ require 'forwardable'
 
 module Medievalistic
   class DoublemeatMedley
-    def initialize(app, env)
+    def initialize(app, env, file_finder = nil)
       @app = app
+      @file_finder = file_finder
       @rack_request  = Rack::Request.new(env)
       @rack_response = Rack::Response.new
     end
@@ -18,7 +19,7 @@ module Medievalistic
     end
 
     def root_path
-      @app.root
+      @app.root_path
     end
   end
 end

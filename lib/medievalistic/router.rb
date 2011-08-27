@@ -3,9 +3,8 @@ module Medievalistic
   end
 
   class Router
-    attr_reader :app
-    def initialize(app)
-      @app = app
+    def initialize(file_finder)
+      @file_finder = file_finder
     end
 
     def dispatch(doublemeat_medley)
@@ -25,9 +24,8 @@ module Medievalistic
         Object.const_get(controller_class_name)
       rescue NameError => name_error
         begin
-          require File.join(app.root, 'controllers', controller_name + '_controller')
-          # TODO (SLG): Refactor this to use FileFinder
-        rescue LoadError => load_error
+          require File.join(@file_finder.root_path, 'controllers', controller_name + '_controller')
+        rescue LoadError
           raise name_error
         end
         Object.const_get(controller_class_name)
