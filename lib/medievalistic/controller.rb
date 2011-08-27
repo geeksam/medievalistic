@@ -26,32 +26,12 @@ module Medievalistic
 
     def render(*args)
       options = args.extract_options!
-      content = args.shift
-
-      case content
-      when nil
-        render_template options
-      when String
-        actually_render content, options
-      end
-    end
-
-    def render_template(options = {})
-      options[:format] ||= :html
-      content = view.content_from_template(self.name, action, options[:format])
+      content = build_content(args.shift, options)
       actually_render content, options
     end
 
-    def actually_render(content, options)
-      raise DoubleRenderError if @already_rendered
-
-      format = options[:format] || :html
-      layout = options[:layout] || 'default'
-
-      body = view.wrap_content_in_layout(content, layout)
-
-      @doublemeat_medley.write_type_and_content(ContentTypes[format], body)
-      @already_rendered = true
+    def content_from_template(options = {})
+      view.content_from_template(self.name, action, options)
     end
 
     def view
@@ -65,5 +45,20 @@ module Medievalistic
         gsub(/(.)([A-Z])/) { |match| match[1] + '_' + match[2] }.
         downcase
     end
+
+    protected
+
+    def build_content(content, options)
+      content ||= content_from_template(options)
+      view.wrap_content_in_layout(content, options)
+    end
+
+    def actually_render(content, options)
+      raise DoubleRenderError if @already_rendered
+      format = options[:format] || :html
+      @doublemeat_medley.write_type_and_content(ContentTypes[format], content)
+      @already_rendered = true
+    end
+
   end
 end
