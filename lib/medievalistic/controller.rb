@@ -26,7 +26,8 @@ module Medievalistic
 
     def render(*args)
       options = args.extract_options!
-      content = build_content(args.shift, options)
+      maybe_content = args.shift
+      content = build_content(maybe_content, options)
       actually_render content, options
     end
 
