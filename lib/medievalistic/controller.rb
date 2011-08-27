@@ -11,7 +11,6 @@ module Medievalistic
 
     def initialize(doublemeat_medley)
       @doublemeat_medley = doublemeat_medley
-      @path_finder = PathFinder.new(doublemeat_medley)
       @already_rendered = false
     end
 

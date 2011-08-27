@@ -9,17 +9,20 @@ module Medievalistic
     end
     
     def template_filename_for(controller_name, base_name)
-      base_name = from_root('views', controller_name, base_name)
-      # TODO: glob for, e.g., foo.html.erb
-      base_name
+      from_root('views', controller_name, base_name)
     end
     
-    def template_file_for(controller_name, base_name)
-      File.open(template_filename_for(controller_name, base_name), 'r').read
+    def read_file(filename)
+      File.open(filename, 'r').read
     end
 
+    # Join components together and append them to the path.
+    # Note:  Uses dir globbing to return an actual filename from the target dir.
+    # So if you ask for 'foo.html' and 'foo.html.erb' is present, you'll get 'foo.html.erb'.
+    # Behavior when multiple files match the given pattern is undefined.
     def from_root(*components)
       base_path = File.join(@doublemeat_medley.root_path, *components.map(&:to_s))
+      Dir[base_path + '*'].first
     end
   end
 end
