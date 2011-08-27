@@ -1,6 +1,8 @@
-def run_all_tests
+def run_all_tests(message = nil)
   sep = '*' * 10
-  puts "\n\n#{sep}  %s  #{sep}\n\n" % Time.now.strftime('%I:%M:%S %p')
+  puts "\n\n#{sep}  %s  #{sep}\n" % Time.now.strftime('%I:%M:%S %p')
+  puts message if message
+  puts "\n"
   puts `rake test:all`
   sticky = false
   if $? == 0
@@ -11,7 +13,10 @@ def run_all_tests
   `growlnotify -t "#{subject}" -m "#{message}"`
 end
 
-watch('.*\.rb') { run_all_tests }
+watch('.*') do |md|
+  message = '>>> CHANGED: ' + md[0].to_s
+  run_all_tests(message)
+end
 
 run_all_tests
 
