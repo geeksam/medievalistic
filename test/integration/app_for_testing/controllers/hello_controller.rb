@@ -12,4 +12,8 @@ class HelloController < Medievalistic::Controller
   def i_must_be_going
     render "I Don't Care Anymore", :layout => 'phil_collins'
   end
+
+  def is_there_anybody_in_there
+    render :lyric => 'Just nod if you can hear me'
+  end
 end

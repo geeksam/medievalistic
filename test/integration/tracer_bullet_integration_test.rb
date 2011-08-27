@@ -49,4 +49,18 @@ describe "a test application" do
       assert_match(/I Don't Care Anymore/, last_response.body)
     end
   end
+
+  describe "for an action with an ERB template" do
+    it 'works, and renders locals (NOT instance variables, for that is Eville.)' do
+      get '/hello/is_there_anybody_in_there'
+      assert last_response.ok?
+      assert_match(/<div id="pink_floyd">/, last_response.body)
+    end
+
+    it 'renders locals (NOT instance variables, for that is Eville)' do
+      get '/hello/is_there_anybody_in_there'
+      assert last_response.ok?
+      assert_match(/Just nod if you can hear me/, last_response.body)
+    end
+  end
 end
