@@ -8,4 +8,8 @@ class HelloController < Medievalistic::Controller
   def kitty_has_no_mouth
     render
   end
+
+  def i_must_be_going
+    render "I Don't Care Anymore", :layout => 'phil_collins'
+  end
 end

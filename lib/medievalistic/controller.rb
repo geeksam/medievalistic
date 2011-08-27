@@ -1,3 +1,5 @@
+require 'tilt'
+
 module Medievalistic
   class Controller
     ContentTypes = {
@@ -42,17 +44,22 @@ module Medievalistic
       actually_render content, options
     end
 
-    def actually_render(body, options)
-      format = options[:format] || :html
-
+    def actually_render(content, options)
       raise DoubleRenderError if @already_rendered
-      @already_rendered = true
+
+      format = options[:format] || :html
+      layout = options[:layout] || 'default'
+
+      layout_template = layout_filename(layout) + '.html.erb'
+      layout = Tilt.new(layout_template)
+      body = layout.render() { content }
 
       @doublemeat_medley.write_type_and_content(ContentTypes[format], body)
+      @already_rendered = true
     end
 
-    def layout_path(*additional_paths)
-      File.expand_path(File.join(doublemeat_medley.root_path, 'views', 'layouts', *additional_paths))
+    def layout_filename(layout)
+      File.expand_path(File.join(doublemeat_medley.root_path, 'views', 'layouts', layout))
     end
 
     def controller_name

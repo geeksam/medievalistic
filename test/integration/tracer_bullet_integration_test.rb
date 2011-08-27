@@ -35,11 +35,18 @@ describe "a test application" do
     end
 
     it 'renders using the default layout' do
-      skip
       get '/hello/kitty_has_no_mouth'
       assert last_response.ok?
       assert_match(/<html>/, last_response.body)
       assert_match(/I'm a testing app!/, last_response.body)
+    end
+
+    it 'renders an explicitly-named layout' do
+      get 'hello/i_must_be_going'
+      assert last_response.ok?
+      assert_match(/<html>/, last_response.body)
+      assert_match(/Phil Collins/, last_response.body)
+      assert_match(/I Don't Care Anymore/, last_response.body)
     end
   end
 end
