@@ -8,7 +8,7 @@ module Medievalistic
     end
 
     def dispatch(doublemeat_medley)
-      controller_class, action = controller_class_and_action(doublemeat_medley.path)
+      controller_class, action = controller_class_and_action(doublemeat_medley.request_path)
       controller_class.dispatch(doublemeat_medley, action)
     end
 

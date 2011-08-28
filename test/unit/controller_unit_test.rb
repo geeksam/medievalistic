@@ -7,9 +7,10 @@ end
 describe Medievalistic::Controller do
   describe '#render' do
     before do
+      @file_finder       = MiniTest::Mock.new
       @doublemeat_medley = MiniTest::Mock.new
-      def @doublemeat_medley.root_path
-        '/'
+      def @doublemeat_medley.file_finder
+        @file_finder
       end
       def @doublemeat_medley.expect_write_content_and_type(content, type)
         expect :write_type_and_content, content, [type, content]

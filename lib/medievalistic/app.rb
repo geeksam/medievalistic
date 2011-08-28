@@ -18,9 +18,9 @@ module Medievalistic
     end
 
     def call(env)
-      doublemeat_medley = DoublemeatMedley.new(self, env)
-      router.dispatch(doublemeat_medley)
-      doublemeat_medley.finalize
+      dm = DoublemeatMedley.new(env, file_finder)
+      router.dispatch(dm)
+      dm.finalize
     end
 
     def router

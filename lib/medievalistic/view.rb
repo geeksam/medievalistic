@@ -3,7 +3,7 @@ require 'tilt'
 module Medievalistic
   class View
     def initialize(doublemeat_medley)
-      @file_finder = FileFinder.new(doublemeat_medley.root_path)
+      @file_finder = doublemeat_medley.file_finder
     end
 
     def content_from_template(controller_name, action, options = {})
