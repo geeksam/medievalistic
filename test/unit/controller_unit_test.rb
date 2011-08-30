@@ -9,15 +9,14 @@ describe Medievalistic::Controller do
     before do
       @doublemeat_medley = MiniTest::Mock.new
       @doublemeat_medley.expect(:file_finder, nil)  # I'd rather have #stub, but this will do
-      def @doublemeat_medley.expect_write_content_and_type(content, type)
+      def @doublemeat_medley.expect_write_type_and_content(content, type)
         expect :write_type_and_content, content, [type, content]
         yield
         verify
       end
 
       @controller = FooController.new(@doublemeat_medley)
-      @view = @controller.view
-      def @view.wrap_content_in_layout(content, layout)
+      def (@controller.view).wrap_content_in_layout(content, layout)
         content  # just skip that whole Tilt business
       end
     end
@@ -30,7 +29,7 @@ describe Medievalistic::Controller do
       end
 
       assert_raises(Medievalistic::Controller::DoubleRenderError) do
-        @doublemeat_medley.expect_write_content_and_type 'Unce', 'text/html' do
+        @doublemeat_medley.expect_write_type_and_content 'Unce', 'text/html' do
           @controller.goodbye
         end
       end
@@ -42,7 +41,7 @@ describe Medievalistic::Controller do
           render Foo.html
         end
 
-        @doublemeat_medley.expect_write_content_and_type Foo.html, 'text/html' do
+        @doublemeat_medley.expect_write_type_and_content Foo.html, 'text/html' do
           @controller.goodbye
         end
       end
@@ -50,7 +49,7 @@ describe Medievalistic::Controller do
       it 'Does the Right Thing(tm) when given args (content, :format => :text)' do
         def @controller.foo_text; render Foo.txt,  :format => :text; end
 
-        @doublemeat_medley.expect_write_content_and_type Foo.txt, 'text/plain' do
+        @doublemeat_medley.expect_write_type_and_content Foo.txt, 'text/plain' do
           @controller.foo_text
         end
       end
@@ -58,7 +57,7 @@ describe Medievalistic::Controller do
       it 'Does the Right Thing(tm) when given args (content, :format => :html)' do
         def @controller.foo_html; render Foo.html, :format => :html; end
 
-        @doublemeat_medley.expect_write_content_and_type Foo.html, 'text/html' do
+        @doublemeat_medley.expect_write_type_and_content Foo.html, 'text/html' do
           @controller.foo_html
         end
       end
