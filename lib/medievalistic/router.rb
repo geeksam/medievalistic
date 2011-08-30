@@ -24,7 +24,7 @@ module Medievalistic
         Object.const_get(controller_class_name)
       rescue NameError => name_error
         begin
-          require File.join(@file_finder.root_path, 'controllers', controller_name + '_controller')
+          require @file_finder.from_root('controllers', controller_name + '_controller')
         rescue LoadError
           raise name_error
         end

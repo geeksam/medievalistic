@@ -6,7 +6,11 @@ end
 
 describe Medievalistic::Router do
   def router
-    @router ||= Medievalistic::Router.new(test_app)
+    @file_finder = MiniTest::Mock.new
+    def @file_finder.from_root(*components)
+      ''
+    end
+    @router ||= Medievalistic::Router.new(@file_finder)
   end
 
   describe '#controller_class_and_action' do
