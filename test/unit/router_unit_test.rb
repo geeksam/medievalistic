@@ -35,11 +35,11 @@ describe Medievalistic::Router do
     it 'routes paths of the form /:controller/:action and invokes the right method (with trailing slash)' do
       assert_equal %w[foo world], router.path_components('/foo/world/')
     end
-    
+
     it 'routes paths of the form /:controller to the #index method on the appropriate controller' do
       assert_equal %w[foo index], router.path_components('/foo')
     end
-    
+
     it 'routes paths of the form /:controller to the #index method on the appropriate controller (with trailing slash)' do
       assert_equal %w[foo index], router.path_components('/foo/')
     end

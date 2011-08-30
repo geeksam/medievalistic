@@ -12,7 +12,7 @@ module Medievalistic
       view_template = @file_finder.template_filename(controller_name, base_name)
       render_template(view_template, nil, options)
     end
-    
+
     def wrap_content_in_layout(content, options = {})
       layout = options[:layout] || :default
       layout_template = @file_finder.layout_filename(layout)

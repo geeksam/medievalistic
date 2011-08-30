@@ -5,15 +5,15 @@ module Medievalistic
     def initialize(root_path)
       @root_path = root_path
     end
-    
+
     def layout_filename(layout)
       from_root('views', 'layouts', layout)
     end
-    
+
     def template_filename(controller_name, base_name)
       from_root('views', controller_name, base_name)
     end
-    
+
     def read_file(filename)
       File.open(filename, 'r').read
     end
