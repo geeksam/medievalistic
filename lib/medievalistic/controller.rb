@@ -7,15 +7,16 @@ module Medievalistic
     class DoubleRenderError < Exception
     end
 
-    attr_reader :doublemeat_medley, :action
+    attr_reader :action
 
-    def initialize(doublemeat_medley)
+    def initialize(doublemeat_medley, file_finder)
       @doublemeat_medley = doublemeat_medley
+      @file_finder = file_finder
       @already_rendered = false
     end
 
-    def self.dispatch(doublemeat_medley, action)
-      new(doublemeat_medley).dispatch(action)
+    def self.dispatch(doublemeat_medley, file_finder, action)
+      new(doublemeat_medley, file_finder).dispatch(action)
     end
 
     def dispatch(action)
@@ -30,12 +31,8 @@ module Medievalistic
       actually_render content, options
     end
 
-    def content_from_template(options = {})
-      view.content_from_template(self.name, action, options)
-    end
-
     def view
-      @view ||= View.new(@doublemeat_medley)
+      @view ||= View.new(@file_finder)
     end
 
     def name
@@ -49,7 +46,7 @@ module Medievalistic
     protected
 
     def build_content(content, options)
-      content ||= content_from_template(options)
+      content ||= view.content_from_template(name, action, options)
       view.wrap_content_in_layout(content, options)
     end
 
@@ -59,6 +56,5 @@ module Medievalistic
       @doublemeat_medley.write_type_and_content(ContentTypes[format], content)
       @already_rendered = true
     end
-
   end
 end

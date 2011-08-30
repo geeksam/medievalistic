@@ -10,18 +10,18 @@ describe Medievalistic::Router do
     def @file_finder.from_root(*components)
       ''
     end
-    @router ||= Medievalistic::Router.new(@file_finder)
+    @router ||= Medievalistic::Router.new
   end
 
   describe '#controller_class_and_action' do
     it 'raises an error when given an invalid path (i.e., an unknown controller)' do
       assert_raises(NameError) do
-        router.controller_class_and_action('bogus/action')
+        router.controller_class_and_action('bogus/action', @file_finder)
       end
     end
 
     it 'returns a controller class and a symbol when given a valid path' do
-      controller, action = router.controller_class_and_action('foo/world')
+      controller, action = router.controller_class_and_action('foo/world', @file_finder)
       assert_equal FooController, controller
       assert_equal :world, action
     end
