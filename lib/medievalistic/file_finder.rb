@@ -15,10 +15,6 @@ module Medievalistic
       from_root('views', controller, filename)
     end
 
-    def read_file(filename)
-      File.open(filename, 'r').read
-    end
-
     # Join components together and append them to the path.
     # Note:  Uses dir globbing to return an actual filename from the target dir.
     # So if you ask for 'foo.html' and 'foo.html.erb' is present, you'll get 'foo.html.erb'.

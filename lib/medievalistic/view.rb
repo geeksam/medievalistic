@@ -26,17 +26,19 @@ module Medievalistic
     end
 
     # Attempt to render the template using Tilt.
-    # If Tilt whinges, just read the file contents and pass them back.
+    # If that doesn't work, treat it as a static template.
     def render_template(*args)
       options = args.extract_options!
       filename, content = *args
-      begin
-        layout = Tilt.new(filename)
-        layout.render(nil, options) { content }
-      rescue Exception => e
-        raise e unless e.message.include?('No template engine registered for')
-        @file_finder.read_file(filename)
-      end
+      render_tilt(filename, content, options) || render_static(filename)
+    end
+
+    def render_tilt(filename, content, options)
+      Tilt.new(filename).render(nil, options) { content } rescue nil
+    end
+
+    def render_static(filename)
+      File.open(filename, 'r').read
     end
   end
 end
