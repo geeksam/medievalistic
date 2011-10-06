@@ -23,12 +23,11 @@ module Medievalistic
       dm.finalize  # This return value is important.  Resist the urge to use #tap in this function.
     end
 
-    def root_path
-      @root ||= File.expand_path(self.class::Root)
-    end
-
     def file_finder
-      @file_finder ||= FileFinder.new(root_path)
+      @file_finder ||= begin
+        root_path = File.expand_path(self.class::Root)
+        FileFinder.new(root_path)
+      end
     end
   end
 end
