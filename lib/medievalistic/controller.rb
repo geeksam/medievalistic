@@ -26,13 +26,16 @@ module Medievalistic
 
     def render(*args)
       options = args.extract_options!
-      maybe_content = args.shift
-      content = build_content(maybe_content, options)
-      actually_render content, options
+      options[:content] = args.shift
+      actually_render(options)
     end
 
     def view
-      @view ||= View.new(@file_finder)
+      @view ||= View.new({
+        :file_finder       => @file_finder,
+        :controller_name   => name,
+        :controller_action => action,
+      })
     end
 
     def name
@@ -45,16 +48,11 @@ module Medievalistic
 
     protected
 
-    def build_content(content, options)
-      content ||= view.content_from_template(name, action, options)
-      view.wrap_content_in_layout(content, options)
-    end
-
-    def actually_render(content, options)
+    def actually_render(options)
       raise DoubleRenderError if @already_rendered
-      format = options[:format] || :html
-      @doublemeat_medley.write_type_and_content(ContentTypes[format], content)
       @already_rendered = true
+      options[:content_type] = ContentTypes[options[:format] || :html]
+      view.render_content(@doublemeat_medley, options)
     end
   end
 end
