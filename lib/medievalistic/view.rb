@@ -34,6 +34,8 @@ module Medievalistic
     end
 
     def render_tilt(filename, content, options)
+      # First arg to Tilt#render is an object to use as a binding.
+      # I leave this nil because I think using instance variables is a horrible misfeature of Rails.
       Tilt.new(filename).render(nil, options) { content } rescue nil
     end
 
