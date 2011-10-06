@@ -30,14 +30,6 @@ module Medievalistic
       actually_render(options)
     end
 
-    def view
-      @view ||= View.new({
-        :file_finder       => @file_finder,
-        :controller_name   => name,
-        :controller_action => action,
-      })
-    end
-
     def name
       self.class.
         name.
@@ -47,6 +39,14 @@ module Medievalistic
     end
 
     protected
+
+    def view
+      @view ||= View.new({
+        :file_finder       => @file_finder,
+        :controller_name   => name,
+        :controller_action => action,
+      })
+    end
 
     def actually_render(options)
       raise DoubleRenderError if @already_rendered

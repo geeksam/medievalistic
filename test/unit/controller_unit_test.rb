@@ -15,7 +15,8 @@ describe Medievalistic::Controller do
       end
 
       @controller = FooController.new(@doublemeat_medley, nil)
-      def (@controller.view).wrap_content_in_layout(content, layout)
+      view = @controller.send(:view)
+      def view.wrap_content_in_layout(content, layout)
         content  # just skip that whole Tilt business
       end
     end
