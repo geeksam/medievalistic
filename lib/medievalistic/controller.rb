@@ -45,6 +45,7 @@ module Medievalistic
         :file_finder       => @file_finder,
         :controller_name   => name,
         :controller_action => action,
+        :doublemeat_medley => @doublemeat_medley,
       })
     end
 
@@ -52,7 +53,7 @@ module Medievalistic
       raise DoubleRenderError if @already_rendered
       @already_rendered = true
       options[:content_type] = ContentTypes[options[:format] || :html]
-      view.render_content(@doublemeat_medley, options)
+      view.render_content(options)
     end
   end
 end

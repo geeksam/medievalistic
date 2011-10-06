@@ -6,11 +6,11 @@ module Medievalistic
       options.each { |k,v| instance_variable_set("@#{k}", v) }
     end
 
-    def render_content(doublemeat_medley, render_options)
+    def render_content(render_options)
       inner_content  = render_options.delete(:content) \
                     || content_from_template(render_options)
       content = wrap_content_in_layout(inner_content, render_options)
-      doublemeat_medley.write_type_and_content(render_options[:content_type], content)
+      @doublemeat_medley.write_type_and_content(render_options[:content_type], content)
     end
 
     protected
