@@ -19,12 +19,8 @@ module Medievalistic
 
     def call(env)
       dm = DoublemeatMedley.new(env)
-      router.dispatch(dm, file_finder)
+      Router.dispatch(dm, file_finder)
       dm.finalize  # This return value is important.  Resist the urge to use #tap in this function.
-    end
-
-    def router
-      @router ||= Router.new
     end
 
     def root_path

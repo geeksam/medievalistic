@@ -5,12 +5,15 @@ class FooController < Medievalistic::Controller
 end
 
 describe Medievalistic::Router do
-  def router
+  def setup
     @file_finder = MiniTest::Mock.new
     def @file_finder.from_root(*components)
       ''
     end
-    @router ||= Medievalistic::Router.new
+  end
+
+  def router
+    Medievalistic::Router
   end
 
   describe '#controller_class_and_action' do

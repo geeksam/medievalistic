@@ -2,7 +2,9 @@ module Medievalistic
   class RoutingError < RuntimeError
   end
 
-  class Router
+  module Router
+    module_function
+
     def dispatch(doublemeat_medley, file_finder)
       controller_class, action = controller_class_and_action(doublemeat_medley.request_path, file_finder)
       controller_class.dispatch(doublemeat_medley, file_finder, action)
