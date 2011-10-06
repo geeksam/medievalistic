@@ -34,31 +34,29 @@ describe Medievalistic::Controller do
       end
     end
 
-    describe '#render' do
-      it 'takes args (content) and writes to the tubes with default content type of HTML' do
-        def @controller.goodbye
-          render Foo.html
-        end
-
-        @doublemeat_medley.expect_write_type_and_content Foo.html, 'text/html' do
-          @controller.goodbye
-        end
+    it 'takes args (content) and writes to the tubes with default content type of HTML' do
+      def @controller.goodbye
+        render Foo.html
       end
 
-      it 'Does the Right Thing(tm) when given args (content, :format => :text)' do
-        def @controller.foo_text; render Foo.txt,  :format => :text; end
-
-        @doublemeat_medley.expect_write_type_and_content Foo.txt, 'text/plain' do
-          @controller.foo_text
-        end
+      @doublemeat_medley.expect_write_type_and_content Foo.html, 'text/html' do
+        @controller.goodbye
       end
+    end
 
-      it 'Does the Right Thing(tm) when given args (content, :format => :html)' do
-        def @controller.foo_html; render Foo.html, :format => :html; end
+    it 'Does the Right Thing(tm) when given args (content, :format => :text)' do
+      def @controller.foo_text; render Foo.txt,  :format => :text; end
 
-        @doublemeat_medley.expect_write_type_and_content Foo.html, 'text/html' do
-          @controller.foo_html
-        end
+      @doublemeat_medley.expect_write_type_and_content Foo.txt, 'text/plain' do
+        @controller.foo_text
+      end
+    end
+
+    it 'Does the Right Thing(tm) when given args (content, :format => :html)' do
+      def @controller.foo_html; render Foo.html, :format => :html; end
+
+      @doublemeat_medley.expect_write_type_and_content Foo.html, 'text/html' do
+        @controller.foo_html
       end
     end
   end
