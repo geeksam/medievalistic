@@ -10,8 +10,9 @@ module Medievalistic
       from_root('views', 'layouts', layout)
     end
 
-    def template_filename(controller_name, base_name)
-      from_root('views', controller_name, base_name)
+    def template_filename(controller, action, format)
+      filename = [action, format].compact.join('.')
+      from_root('views', controller, filename)
     end
 
     def read_file(filename)
